@@ -42,11 +42,11 @@ Does not include any payment module.
 
 ### Architecture Diagram
 
-![Architecture Diagram](.\architecture.png)
+![Architecture Diagram](./architecture.png)
 
 ### Entities Class Diagram
 
-![Entities Class Diagram](.\class_diagram.jpg)
+![Entities Class Diagram](./class_diagram.jpg)
 
 ### Architecture Description
 
