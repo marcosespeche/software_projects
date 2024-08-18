@@ -1,7 +1,7 @@
 package com.members.members.configuration;
 
 import com.fasterxml.jackson.databind.JsonSerializer;
-import com.members.members.Events.Event;
+import com.members.members.events.Event;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;

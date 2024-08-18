@@ -42,7 +42,7 @@ Does not include any payment module.
 
 ### Architecture Diagram
 
-![Architecture Diagram](./architecture.png)
+![Architecture Diagram](./overall_architecture.png)
 
 ### Entities Class Diagram
 
@@ -54,6 +54,9 @@ Springboot was the choice for every microservice because it's the programming la
 
 Since I wanted to try the most vanilla microservice development experience, I decided not to use Spring Cloud despite its compatibility with Spring microservices. I believe this approach allows me to learn later other technologies, like Spring Cloud or Kubernetes and not be attached to a specific one.
 
+### Spring microservices architecture
+
+![Spring Microservices Architecture](./spring_architecture.png)
 
 ## Requirements
 
@@ -66,7 +69,20 @@ The only requirement needed to execute the API is Docker, each container has its
 
 ## Usage
 
+**Ports used by default**
 
+If any of these ports are used by other service on your local machine, the application won't start. You must kill any process listening on the following ports:
+
+- Zookeper: 22181
+- Apache Kafka: 29092
+- MySQL: 3306
+- Projects microservice: 8080
+- Teams microservice: 8081
+- Members microservice: 8082
+- Auth microservice: 8083
+- Products microservice: 8084
+
+Alternatively, you can change the ports on the docker-compose.yml file
 
 ## Configuration
 
@@ -78,4 +94,4 @@ The only requirement needed to execute the API is Docker, each container has its
 
 ## Author
 
-- **Marcos Espeche** - [LinkedIn](www.linkedin.com/in/marcos-espeche-villalón-962821208)
+- **Marcos Espeche** - [LinkedIn](http://www.linkedin.com/in/marcos-espeche-villalón-962821208)

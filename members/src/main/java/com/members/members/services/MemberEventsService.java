@@ -1,10 +1,9 @@
 package com.members.members.services;
 
-import com.members.members.Events.Event;
-import com.members.members.Events.EventType;
+import com.members.members.events.Event;
+import com.members.members.events.EventType;
 import com.members.members.entities.Member;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
