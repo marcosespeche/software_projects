@@ -25,11 +25,20 @@
 
 ## Description
 
-This project is designed for a software factory company that offers customizable base software products to meet the specific needs of their clients. When a client engages the company, a suitable software product is selected for the project. A 'project leader' can claim an unassigned project, after which a team is automatically chosen using an algorithm. Once the project is underway, requirements can be uploaded, and team members can update their status and log tasks associated with each requirement. When all requirements are completed, the project can be marked as finished.
+This project is designed for a software factory company that offers customizable base software products to meet the specific needs of their clients. When a client engages the company, a suitable software product is selected for the project. A 'project leader' can claim an unassigned project, after which a team is automatically chosen using an algorithm. 
+
+Once the project is underway, requirements can be uploaded, and team members can update their state and log tasks associated with each requirement. When all requirements are completed, the project can be marked as finished. Only a 'team leader' or the member responsible of the requirement can update the its state. The responsible member is designed by the 'team leader'. A record of the period of time in which someone was responsible of a requirement must be stored.
+
+Any team member can upload tasks developed for a specific requirement through the project life cycle, but only certain types of tasks depending on the requirement state. Each requirement state defines what types of tasks can be uploaded.
+
+The company that use this application is able to define what states a requirement can go through.
 
 **Limitations:**
 
-Does not include any payment module.
+For this version: 
+
+- Do not include any payment module.
+- It is not needed to implement how the transitions between states would work.
 
 ## Architecture
 
@@ -50,6 +59,8 @@ Since I wanted to try the most vanilla microservice development experience, I de
 For the same reason, I decided not to include a Gateway API. There're a lot of Cloud Gateway API, and it's not relevant for what I'm most interested about: the async/sync communication between microservices. How the application would be consumed in a production environment, it's out of the scope of this project.
 
 The DBMS chosen is MySQL, again, because it's the one that I'm most familiar with. 
+
+The message broker is Kafka because I wanted to learn it over RabbitMQ, not for any technical reason. I just see more Java developer job offers that requires Kafka. 
 
 ### Spring microservices architecture
 
