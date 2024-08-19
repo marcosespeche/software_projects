@@ -33,6 +33,18 @@ Any team member can upload tasks developed for a specific requirement through th
 
 The company that use this application is able to define what states a requirement can go through.
 
+### Microservices Description
+
+Every microservice sends an async message for each CRUD operation performed to the others microservices subscribed to that topic.
+
+- **Auth:** Authenticates users returning a JWT, and Authorizes requests. Each microservice, when is consumed, sends a sync message to this microservice to check if the JWT provided is valid.
+- **Members:** Members and Roles CRUD operations. 
+- **Products:** Products CRUD operations.
+- **Projects:** Clients CRUD operations, Projects register and state changes. 
+- **Teams:** Teams CRUD operations, including defining the team members and its role. Also is responsible of assigning a team to a project.
+- **Tasks:** Not defined yet
+- **Requirements:** Not defined yet
+
 **Limitations:**
 
 For this version: 
