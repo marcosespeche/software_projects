@@ -2,6 +2,7 @@ package com.members.members.services;
 
 import com.members.members.dtos.MemberDTO;
 import com.members.members.entities.Member;
+import com.members.members.events.EventType;
 import com.members.members.mappers.MemberMapper;
 import com.members.members.repositories.MemberRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -22,10 +23,13 @@ public class MemberService {
 
     private final MemberMapper mapper;
 
+    private final MemberEventsService eventsService;
+
     @Autowired
-    public MemberService(MemberRepository memberRepository, MemberMapper mapper) {
+    public MemberService(MemberRepository memberRepository, MemberMapper mapper, MemberEventsService eventsService) {
         this.memberRepository = memberRepository;
         this.mapper = mapper;
+        this.eventsService = eventsService;
     }
 
     @Transactional
@@ -73,6 +77,7 @@ public class MemberService {
     public MemberDTO save(Member entity) throws Exception {
         try {
             Member entitySaved = this.memberRepository.save(entity);
+            this.eventsService.publish(entitySaved, EventType.CREATED);
             return mapper.memberToMemberDTO(entitySaved);
         } catch (Exception e) {
             throw new Exception("Error saving entity: " + e.getMessage(), e);
@@ -86,6 +91,7 @@ public class MemberService {
             if (entityOptional.isEmpty()) throw new EntityNotFoundException("Entity with ID: " + id + " not found");
             Member entityUpdate = entityOptional.get();
             entityUpdate = this.memberRepository.save(entity);
+            this.eventsService.publish(entityUpdate, EventType.UPDATED);
             return mapper.memberToMemberDTO(entityUpdate);
         } catch (Exception e) {
             throw new Exception("Error updating entity: " + e.getMessage(), e);
@@ -97,6 +103,7 @@ public class MemberService {
         try {
             Member entityOptional = this.memberRepository.findById(id).orElseThrow(() -> new Exception("Entity with ID " + id + " not found"));
             memberRepository.deleteById(id);
+            eventsService.publish(entityOptional, EventType.DELETED);
             return true;
         } catch (Exception e) {
             throw new Exception("Error deleting entity: " + e.getMessage(), e);

@@ -8,10 +8,9 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Event <E> {
+public abstract class Event <E> {
 
     private String id;
 

@@ -5,6 +5,7 @@ import com.members.members.events.Event;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
@@ -20,7 +21,8 @@ import java.util.Map;
 @EnableKafka
 public class KafkaConfiguration {
 
-    private final String KAFKA_URL = "kafka:9092";
+    @Value("${kafka.url}")
+    private String KAFKA_URL;
 
     @Bean
     public ProducerFactory<String, Event<?>> producerFactory() {
@@ -48,11 +50,5 @@ public class KafkaConfiguration {
     public KafkaTemplate<String, Event<?>> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
-
-    @Bean
-    public NewTopic memberCreatedTopic() {
-        return TopicBuilder
-                .name("member:created")
-                .build();
-    }
+    
 }

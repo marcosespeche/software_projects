@@ -3,7 +3,9 @@ package com.members.members.services;
 import com.members.members.events.Event;
 import com.members.members.events.EventType;
 import com.members.members.entities.Member;
+import com.members.members.events.MemberEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
@@ -16,15 +18,16 @@ public class MemberEventsService {
     @Autowired
     private KafkaTemplate<String, Event<?>> producer;
 
+    @Value("${topic.customer.name:customers}")
+    private String topic;
+
     public void publish(Member entity, EventType eventType) {
-            Event<Member> event = Event.<Member>builder()
-                    .data(entity)
-                    .date(new Date())
-                    .id(UUID.randomUUID().toString())
-                    .eventType(eventType).build();
+            MemberEvent event = MemberEvent.builder().build();
+            event.setData(entity);
+            event.setEventType(eventType);
+            event.setId(UUID.randomUUID().toString());
+            event.setDate(new Date());
 
-
-        String topic = "member:created";
-        this.producer.send(topic, event);
+            this.producer.send(topic, event);
     }
 }

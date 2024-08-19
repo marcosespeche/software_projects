@@ -2,6 +2,7 @@ package com.members.members.services;
 
 import com.members.members.dtos.RoleDTO;
 import com.members.members.entities.Role;
+import com.members.members.events.EventType;
 import com.members.members.mappers.RoleMapper;
 import com.members.members.repositories.RoleRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -22,10 +23,13 @@ public class RoleService {
 
     private final RoleMapper mapper;
 
+    private final RoleEventsService eventsService;
+
     @Autowired
-    public RoleService(RoleRepository roleRepository, RoleMapper mapper) {
+    public RoleService(RoleRepository roleRepository, RoleMapper mapper, RoleEventsService eventsService) {
         this.roleRepository = roleRepository;
         this.mapper = mapper;
+        this.eventsService = eventsService;
     }
 
     @Transactional
@@ -70,6 +74,7 @@ public class RoleService {
     public RoleDTO save(Role entity) throws Exception {
         try {
             Role entitySaved = this.roleRepository.save(entity);
+            eventsService.publish(entitySaved, EventType.CREATED);
             return mapper.roleToRoleDTO(entitySaved);
         } catch (Exception e) {
             throw new Exception("Error saving entity: " + e.getMessage(), e);
@@ -83,6 +88,7 @@ public class RoleService {
             if (entityOptional.isEmpty()) throw new EntityNotFoundException("Entity with ID: " + id + " not found");
             Role entityUpdate = entityOptional.get();
             entityUpdate = this.roleRepository.save(entity);
+            eventsService.publish(entityUpdate, EventType.UPDATED);
             return mapper.roleToRoleDTO(entityUpdate);
         } catch (Exception e) {
             throw new Exception("Error updating entity: " + e.getMessage(), e);
@@ -94,6 +100,7 @@ public class RoleService {
         try {
             Role entityOptional = this.roleRepository.findById(id).orElseThrow(() -> new Exception("Entity with ID " + id + " not found"));
             roleRepository.deleteById(id);
+            eventsService.publish(entityOptional, EventType.DELETED);
             return true;
         } catch (Exception e) {
             throw new Exception("Error deleting entity: " + e.getMessage(), e);

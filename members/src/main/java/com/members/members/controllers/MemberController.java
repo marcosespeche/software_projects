@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "api/v1/members")
+@RequestMapping(path = "/api/v1/members")
 public class MemberController {
 
     @Autowired
