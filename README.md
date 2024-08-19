@@ -10,11 +10,9 @@
 
 -  [Architecture](#architecture)
 
--  [Requirements](#requirements)
+-  [Dependencies](#dependencies)
 
 -  [Instalation](#instalation)
-
--  [Usage](#usage)
 
 -  [Configuration](#configuration)
 
@@ -80,7 +78,7 @@ The message broker is Kafka because I wanted to learn it over RabbitMQ, not for 
 
 I believe the most suitable architecture for each microservice is the 3-layer architecture: Controllers receive http requests and delegate the business logic to the Services. The Repository layer is in charge of accessing the database for R/W operations. After executing the corresponding method, the Controller returns an http response.
 
-## Requirements
+## Dependencies
 
 The only requirement needed to execute the application is [Docker](https://www.docker.com/), each container has its own dependencies so there's no need to install Java, Gradle, Apache Kafka, etc.
 
@@ -97,7 +95,8 @@ Then, execute the docker-compose.yml file:
 
 All the dependencies will start downloading within the containers. When it finishes, the application will be running.
 
-## Usage
+
+## Configuration
 
 **Ports used by default**
 
@@ -114,15 +113,9 @@ If any of these ports are used by other service on your local machine, the appli
 
 Alternatively, you can change the ports on the docker-compose.yml file
 
-You can test the application using Postman.
-
-## Configuration
-
-
-
 ## Testing
 
-
+Automated tests were developed using JUnit4, also manual testing can be performed using the Postman file in the repository
 
 ## Author
 
