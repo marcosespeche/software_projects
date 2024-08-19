@@ -20,7 +20,7 @@ import java.util.Map;
 @EnableKafka
 public class KafkaConfiguration {
 
-    private final String KAFKA_URL = "kafka:29092";
+    private final String KAFKA_URL = "kafka:9092";
 
     @Bean
     public ProducerFactory<String, Event<?>> producerFactory() {

@@ -1,11 +1,14 @@
 package com.members.members.services;
 
+import com.members.members.dtos.MemberDTO;
 import com.members.members.entities.Member;
+import com.members.members.mappers.MemberMapper;
 import com.members.members.repositories.MemberRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -15,63 +18,75 @@ import java.util.Optional;
 @Service
 public class MemberService {
 
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
+
+    private final MemberMapper mapper;
 
     @Autowired
-    public MemberService(MemberRepository memberRepository) {
+    public MemberService(MemberRepository memberRepository, MemberMapper mapper) {
         this.memberRepository = memberRepository;
+        this.mapper = mapper;
     }
 
     @Transactional
-    public Page<Member> findAll(Pageable pageable) throws Exception {
+    public Page<MemberDTO> findAll(Pageable pageable) throws Exception {
         try {
+
             Page<Member> entities = this.memberRepository.findAll(pageable);
             if (entities.isEmpty()) throw new EntityNotFoundException("Entities not found");
-            return entities;
+
+            List<MemberDTO> dtoList = entities.stream()
+                                                .map(mapper::memberToMemberDTO)
+                                                .toList();
+
+            return new PageImpl<MemberDTO>(dtoList, pageable, entities.getTotalElements());
         } catch (Exception e) {
             throw new Exception("Error finding entities: " + e.getMessage(), e);
         }
     }
 
     @Transactional
-    public List<Member> findAll() throws Exception {
+    public List<MemberDTO> findAll() throws Exception {
         try {
             List<Member> entities = this.memberRepository.findAll();
             if (entities.isEmpty()) throw new EntityNotFoundException("Entities not found");
-            return entities;
+            return entities.stream()
+                    .map(mapper::memberToMemberDTO)
+                    .toList();
         } catch (Exception e) {
             throw new Exception("Error finding entities: " + e.getMessage(), e);
         }
     }
 
     @Transactional
-    public Member findById(Long id) throws Exception {
+    public MemberDTO findById(Long id) throws Exception {
         try {
             Optional<Member> entity = this.memberRepository.findById(id);
             if (entity.isEmpty()) throw new EntityNotFoundException("Entity with ID: " + id + " not found");
-            return entity.get();
+            return mapper.memberToMemberDTO(entity.get());
         } catch (Exception e) {
             throw new Exception("Error finding entity: " + e.getMessage(), e);
         }
     }
 
     @Transactional
-    public Member save(Member entity) throws Exception {
+    public MemberDTO save(Member entity) throws Exception {
         try {
-            return this.memberRepository.save(entity);
+            Member entitySaved = this.memberRepository.save(entity);
+            return mapper.memberToMemberDTO(entitySaved);
         } catch (Exception e) {
             throw new Exception("Error saving entity: " + e.getMessage(), e);
         }
     }
 
     @Transactional
-    public Member update(Long id, Member entity) throws Exception {
+    public MemberDTO update(Long id, Member entity) throws Exception {
         try {
             Optional<Member> entityOptional = this.memberRepository.findById(id);
             if (entityOptional.isEmpty()) throw new EntityNotFoundException("Entity with ID: " + id + " not found");
             Member entityUpdate = entityOptional.get();
             entityUpdate = this.memberRepository.save(entity);
-            return entityUpdate;
+            return mapper.memberToMemberDTO(entityUpdate);
         } catch (Exception e) {
             throw new Exception("Error updating entity: " + e.getMessage(), e);
         }
