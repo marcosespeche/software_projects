@@ -32,8 +32,16 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
+	// Swagger
 	implementation 'io.springfox:springfox-swagger2:2.9.2'
 	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
+
+	// Map Struct
+	implementation 'org.mapstruct:mapstruct:1.6.0'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.0'
+
+	// https://mvnrepository.com/artifact/org.springframework.kafka/spring-kafka
+	implementation group: 'org.springframework.kafka', name: 'spring-kafka', version: '3.2.2'
 }
 
 tasks.named('test') {
