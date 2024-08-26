@@ -1,6 +1,6 @@
 # Software Projects Management System using Microservices
 
-**Objective:** The main objective of this project is to learn the basics of microservices architecture communication and put in practice some design and architecture patterns. 
+**Objective:** The main goal of this project is to learn the basics of microservices architecture communication and put in practice some design and architecture patterns. 
 
 **Disclaimer:** The technologies used are not intended to be optimal nor for a production environment, I tried to keep it simple in order to accomplish the main objective of the project.
 
@@ -48,7 +48,7 @@ Every microservice sends an async message for each CRUD operation performed to t
 For this version: 
 
 - Do not include any payment module.
-- It is not needed to implement how the transitions between states would work.
+- It is not needed to implement how the transitions between the 'requirements states' would work.
 
 ## Architecture
 
@@ -91,6 +91,7 @@ You can clone the repository from Github using the UI or the command line using:
 
 Then, execute the docker-compose.yml file:
 
+`docker-compose build`
 `docker-compose up`
 
 All the dependencies will start downloading within the containers. When it finishes, the application will be running.
