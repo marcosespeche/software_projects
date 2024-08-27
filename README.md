@@ -91,8 +91,8 @@ You can clone the repository from Github using the UI or the command line using:
 
 Then, execute the docker-compose.yml file:
 
-`docker-compose build`
-`docker-compose up`
+- `docker-compose build`
+- `docker-compose up`
 
 All the dependencies will start downloading within the containers. When it finishes, the application will be running.
 
