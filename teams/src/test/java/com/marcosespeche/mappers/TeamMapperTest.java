@@ -7,14 +7,12 @@ import com.marcosespeche.entities.Member;
 import com.marcosespeche.entities.Role;
 import com.marcosespeche.entities.TeamMember;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest(classes = TeamMapperImpl.class)
 class TeamMapperTest {
