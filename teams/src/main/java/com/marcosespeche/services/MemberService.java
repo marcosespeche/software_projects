@@ -1,6 +1,8 @@
 package com.marcosespeche.services;
 
 import com.marcosespeche.entities.Member;
+import org.springframework.stereotype.Service;
 
-public interface MemberService extends BaseService<Member, Long> {
+@Service
+public class MemberService extends BaseService<Member, Long>{
 }

@@ -1,6 +1,8 @@
 package com.marcosespeche.services;
 
 import com.marcosespeche.entities.Team;
+import org.springframework.stereotype.Service;
 
-public interface TeamService extends BaseService<Team, Long> {
+@Service
+public class TeamService extends BaseService<Team, Long>{
 }
