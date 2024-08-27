@@ -30,13 +30,13 @@ public class MemberEventService {
 
             switch (event.getEventType()) {
                 case CREATED:
-                    memberService.save(event.getData());
+                    memberService.save(memberEvent.getData());
                     break;
                 case UPDATED:
-                    memberService.update(event.getData().getId(), event.getData());
+                    memberService.update(memberEvent.getData().getId(), memberEvent.getData());
                     break;
                 case DELETED:
-                    memberService.delete(event.getData().getId());
+                    memberService.delete(memberEvent.getData().getId());
                     break;
             }
         } catch (Exception e){
