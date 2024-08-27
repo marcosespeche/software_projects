@@ -25,7 +25,7 @@ public interface TeamMapper {
 
     @Mapping(source = "role", target = "role")
     @Mapping(source = "member", target = "member")
-    TeamMemberDTO toTeamMemberDTO(TeamMemberDTO teamMemberDTO);
+    TeamMemberDTO toTeamMemberDTO(TeamMember teamMember);
 
     @InheritInverseConfiguration
     TeamMember toTeamMember(TeamMemberDTO teamMemberDTO);
