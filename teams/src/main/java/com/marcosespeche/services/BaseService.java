@@ -4,6 +4,7 @@ import com.marcosespeche.entities.BaseEntity;
 import com.marcosespeche.repositories.BaseRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +12,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 public abstract class BaseService<E extends BaseEntity, ID extends Serializable>{
 
     @Autowired
@@ -56,7 +58,10 @@ public abstract class BaseService<E extends BaseEntity, ID extends Serializable>
     @Transactional
     public E save(E entity) throws Exception {
         try {
-            return this.repository.save(entity);
+            E entityPersisted = this.repository.save(entity);
+            log.info("Entity persisted, data={}",
+                    entityPersisted);
+            return entityPersisted;
         } catch (Exception e) {
             throw new Exception("Error saving entity: " + e.getMessage(), e);
         }
@@ -70,6 +75,8 @@ public abstract class BaseService<E extends BaseEntity, ID extends Serializable>
             if (entityOptional.isEmpty()) throw new EntityNotFoundException("Entity with ID: " + id + " not found");
             E entityUpdate = entityOptional.get();
             entityUpdate = this.repository.save(entity);
+            log.info("Entity updated, data={}",
+                    entityUpdate);
             return entityUpdate;
         } catch (Exception e) {
             throw new Exception("Error updating entity: " + e.getMessage(), e);
@@ -83,6 +90,8 @@ public abstract class BaseService<E extends BaseEntity, ID extends Serializable>
             Optional<E> entityOptional = this.repository.findById(id);
             if (entityOptional.isEmpty()) throw new Exception("Entity with ID " + id + " not found");
             repository.deleteById(id);
+            log.info("Entity deleted, data={}",
+                    entityOptional.get());
             return true;
         } catch (Exception e) {
             throw new Exception("Error deleting entity: " + e.getMessage(), e);

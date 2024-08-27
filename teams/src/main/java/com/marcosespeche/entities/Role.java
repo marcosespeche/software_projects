@@ -17,7 +17,7 @@ import java.util.Date;
 public class Role extends BaseEntity{
 
     @Column(name = "role_code", unique = true, nullable = false)
-    private Long rolCode;
+    private Long roleCode;
 
     @Column(name = "role_name", nullable = false)
     private String roleName;
