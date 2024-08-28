@@ -21,27 +21,36 @@ public class MemberEventService {
             groupId = "group1"
     )
     public void receiveEvent(Event<Member> event) throws Exception {
-        if (!event.getClass().isAssignableFrom(MemberEvent.class)) return;
+        MemberEvent memberEvent = (MemberEvent) event;
+        log.info("Member Event received with Id={}, data={}",
+                memberEvent.getId(),
+                memberEvent.getData().toString());
+
         try {
-            MemberEvent memberEvent = (MemberEvent) event;
-            log.info("Received member event with Id={}, data={}",
+            handleEvent(memberEvent);
+        } catch (Exception e) {
+            log.error("Error processing event: Id={}, type={}, data={}",
                     memberEvent.getId(),
-                    memberEvent.getData().toString());
-
-            switch (event.getEventType()) {
-                case CREATED:
-                    memberService.save(memberEvent.getData());
-                    break;
-                case UPDATED:
-                    memberService.update(memberEvent.getData().getId(), memberEvent.getData());
-                    break;
-                case DELETED:
-                    memberService.delete(memberEvent.getData().getId());
-                    break;
-            }
-        } catch (Exception e){
-            throw new Exception("Error receiving event: " + e.getMessage(), e);
+                    memberEvent.getEventType(),
+                    memberEvent.getData(), e);
         }
+    }
 
+    private void handleEvent(MemberEvent memberEvent) throws Exception {
+        Member memberData = memberEvent.getData();
+
+        switch (memberEvent.getEventType()) {
+            case CREATED:
+                memberService.save(memberData);
+                break;
+            case UPDATED:
+                memberService.update(memberData.getId(), memberData);
+                break;
+            case DELETED:
+                memberService.delete(memberData.getId());
+                break;
+            default:
+                throw new UnsupportedOperationException("Event type not supported: " + memberEvent.getEventType());
+        }
     }
 }
